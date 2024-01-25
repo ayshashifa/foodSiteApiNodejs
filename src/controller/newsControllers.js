@@ -2,12 +2,15 @@ const uploadFile = require('../middleware/upload');
 const fs = require('fs');
 const mongo = require("../utils/mongo.js");
 const newsSchema = require('../schemas/news.schema');
+const commentSchema =require('../schemas/comment.schema.js');
 const baseUrl = "http://localhost:8000/files/";
 
 const getNewsId = async (req, res) => {
     try {
         const model = mongo.conn.model("moreNews", newsSchema, "moreNews");
+        const model1 = mongo.conn.model("comments",commentSchema,"comments");
         const newsid = parseInt(req.params.news_id);
+        const getcomment =await model1.find({news_id:newsid});
         const getdetails = await model.findOne({ news_id: newsid });
         if (!getdetails) {
             return res.status(404).json({ status: "false", message: "News article not found" });
@@ -22,7 +25,7 @@ const getNewsId = async (req, res) => {
         //     content: file.content,
         // }));
         // res.status(200).send(fileInfos);
-        res.status(200).json({ status: "true", getdetails });
+        res.status(200).json({ status: "true", getcomment,getdetails });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -151,13 +154,26 @@ const removeSync = (req, res) => {
     }
 };
 
+// submit comment form
+const submitcomment =async (req,res)=>{
+    try{
+        const model = mongo.conn.model("comments",commentSchema,"comments");
+        const newcomments = new model(req.body);
+       const data = await newcomments.save();
+        res.status(200).json({status:true, data,message:"success"})
+    }catch{
+        res.status(500).json({ status: false, message: "Internal Server Error" });
+    }
+}
+
 module.exports = {
     moreNewsUpload,
     getNews,
     download,
     remove,
     removeSync,
-    getNewsId
+    getNewsId,
+    submitcomment,
 }
 // generate id
 // Function to get the highest existing news_id

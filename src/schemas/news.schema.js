@@ -11,12 +11,6 @@ const newsSchema = mongoose.Schema({
     innerTitle:String,
     recentPosts:String,
     tags:String,
-    comments:[{
-        profile:String,
-        name:String,
-        date:Date,
-        commentCustomer:String,
-    }]
 });
 module.exports = newsSchema;
 

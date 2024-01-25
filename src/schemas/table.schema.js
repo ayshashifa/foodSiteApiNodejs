@@ -7,9 +7,6 @@ const tableSchema = mongoose.Schema({
   fileSize: {
     type: Number,
     required: true,
-
-
-    
   },
   url: {
     type: String,
