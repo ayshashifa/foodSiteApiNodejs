@@ -5,6 +5,9 @@ const shopSchema = mongoose.Schema({
     imagePath: String,
     name: String,
     price: Number,
+    largetitle:String,
+    content:String,
+    
 
 });
 module.exports = shopSchema;

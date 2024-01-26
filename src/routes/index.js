@@ -13,6 +13,7 @@ router.get("/files/:name", shopController.download);
 // shopPage
 router.post("/food/shop/list", shopController.listOfItems);
 router.get("/food/shop/list",shopController.getShopList);
+router.get("/food/shop/:shop_id",shopController.getShopListId);
 
 module.exports = router;
 
