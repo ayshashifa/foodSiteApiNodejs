@@ -5,7 +5,7 @@ const shopSchema = require('../schemas/shop.schema');
 
 const baseUrl = "http://localhost:8000/files/";
 
-// postiems
+// post shop items
 const listOfItems = async (req, res) => {
     try {
         const model = mongo.conn.model("shoplist", shopSchema, "shoplist");
@@ -35,6 +35,7 @@ const listOfItems = async (req, res) => {
         });
     }
 };
+// get shop list
 const getShopList = async (req, res) => {
     try {
         const model = mongo.conn.model("shoplist", shopSchema, "shoplist");
@@ -47,6 +48,7 @@ const getShopList = async (req, res) => {
         res.status(500).send({ status: false, message: "Unable to fetch file information" })
     }
 }
+// get shop list id wise
 const getShopListId = async (req, res) => {
     try {
         const model = mongo.conn.model("shoplist", shopSchema, "shoplist");
@@ -58,6 +60,8 @@ const getShopListId = async (req, res) => {
 
     }
 }
+// add to cart
+
 const download = (req, res) => {
     const fileName = req.params.name;
     const directoryPath = __basedir + "/resources/static/assets/uploads/";
