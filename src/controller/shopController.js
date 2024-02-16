@@ -42,7 +42,7 @@ const getShopList = async (req, res) => {
         const page = parseInt(req.params.page) || 1;
         const pagesize = parseInt(req.params.pagesize) || 9;
         const skip = (page - 1) * pagesize;
-        const datas = await model.find({}, { _id: 0, _v: 0 }).skip(skip).limit(pagesize);
+        const datas = await model.find({},{ _id: 0, _v: 0 }).skip(skip).limit(pagesize).sort({_id:-1});
         res.status(200).send({ status: true, datas })
     } catch {
         res.status(500).send({ status: false, message: "Unable to fetch file information" })

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const newsController = require("../controller/newsControllers");
 const shopController = require("../controller/shopController");
+const contactUsController = require("../controller/contactusController")
 // news page
 router.post('/food/news/short', newsController.moreNewsUpload);
 router.get('/food/news/short', newsController.getNews);
@@ -14,7 +15,9 @@ router.get("/files/:name", shopController.download);
 router.post("/food/shop/list", shopController.listOfItems);
 router.get("/food/shop/list",shopController.getShopList);
 router.get("/food/shop/:shop_id",shopController.getShopListId);
-
+// contactus
+router.post("/food/contactUs",contactUsController.postContactList);
+router.get("/food/contactUs",contactUsController.getContactList);
 module.exports = router;
 
 
