@@ -1,8 +1,8 @@
-const uploadFile = require("../middleware/upload");
+const uploadFile = require("../middleware/upload.js");
 const fs = require("fs");
 const baseUrl = "http://localhost:8000/files/";
 
-const tableSchema = require("../schemas/table.schema");
+const tableSchema = require("../schemas/table.schema.js");
 const mongo = require("../utils/mongo.js");
 
 const upload = async (req, res) => {

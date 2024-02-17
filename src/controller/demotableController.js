@@ -1,4 +1,4 @@
-const tableSchema = require("../schemas/table.schema");
+const tableSchema = require("../schemas/table.schema.js");
 
 const mongo = require("../utils/mongo.js")
 
