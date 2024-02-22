@@ -36,7 +36,6 @@ const singup = async (req, res) => {
     }
 }
 
-
 const login = async (req, res) => {
     const { email } = req.body;
     // Generate OTP
