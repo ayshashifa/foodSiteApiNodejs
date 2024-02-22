@@ -35,23 +35,28 @@ const singup = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 }
-
 const login = async (req, res) => {
     const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).send('Email is required.');
+    }
     // Generate OTP
     const otp = generateOTP();
+
     try {
         // Check if the email is already signed up
-        const UserModel = mongo.conn.model("signup", authSchema, "signup");
+        const UserModel = mongo.conn.model("singup", authSchema, "singup");
         const existingUser = await UserModel.findOne({ email });
+
         if (!existingUser) {
             return res.status(400).send('Email is not registered. Please sign up first.');
         }
-        
+
         // Save email and OTP to the database
         const LoginModel = mongo.conn.model("login", loginSchema, "login");
         await LoginModel.findOneAndUpdate({ email }, { otp }, { upsert: true });
-        
+
         // Send OTP via email
         await transporter.sendMail({
             from: process.env.EMAIL_USERNAME,
@@ -65,8 +70,7 @@ const login = async (req, res) => {
         console.error('Error sending OTP:', error);
         res.status(500).send('Error sending OTP');
     }
-};
-
+}
 
 const JWT_SECRET = 'mysecretkey';
 const verifiotp = async (req, res) => {
