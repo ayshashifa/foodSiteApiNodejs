@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const newsController = require("../controller/newsControllers");
 const shopController = require("../controller/shopController");
-const contactUsController = require("../controller/contactusController")
+const contactUsController = require("../controller/contactusController");
+const authController =require("../controller/authController");
 // news page
 router.post('/food/news/short', newsController.moreNewsUpload);
 router.get('/food/news/short', newsController.getNews);
@@ -18,6 +19,10 @@ router.get("/food/shop/:shop_id",shopController.getShopListId);
 // contactus
 router.post("/food/contactUs",contactUsController.postContactList);
 router.get("/food/contactUs",contactUsController.getContactList);
+// auth
+router.post("/signup",authController.singup)
+router.post("/login",authController.login)
+router.post("/verifyOtp",authController.verifiotp)
 module.exports = router;
 
 
