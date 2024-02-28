@@ -49,12 +49,12 @@ const login = async (req, res) => {
         const existingUser = await UserModel.findOne({ email });
 
         if (!existingUser) {
-            return res.status(400).send('Email is not registered. Please sign up first.');
+            return res.status(400).json({message:'Email is not registered. Please sign up first.'});
         }
 
         // Save email and OTP to the database
         const LoginModel = mongo.conn.model("login", loginSchema, "login");
-        await LoginModel.findOneAndUpdate({ email }, { otp }, { upsert: true });
+        const data = await LoginModel.findOneAndUpdate({ email }, { otp }, { upsert: true });
 
         // Send OTP via email
         await transporter.sendMail({
@@ -64,10 +64,10 @@ const login = async (req, res) => {
             text: `Your OTP for login is: ${otp}`
         });
 
-        res.status(200).send('OTP sent successfully');
+        res.status(200).json({status:'true',data,message:'OTP sent successfully'});
     } catch (error) {
         console.error('Error sending OTP:', error);
-        res.status(500).send('Error sending OTP');
+        res.status(500).json({status:'false',message:'Error sending OTP'});
     }
 }
 
