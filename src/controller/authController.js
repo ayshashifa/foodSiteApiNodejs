@@ -28,9 +28,8 @@ const singup = async (req, res) => {
         const newUser = new User({ user_id: userId, name, email, phone, password });
         await newUser.save();
         res.status(200).json({ status: true, message: 'Success', newUser });
-    } 
-    catch (error)
-     {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server Error' });
     }

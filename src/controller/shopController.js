@@ -60,6 +60,21 @@ const getShopListId = async (req, res) => {
 
     }
 }
+// search
+const getShopListsearch = async (req, res) => {
+    try {
+        const model = mongo.conn.model("shoplist", shopSchema, "shoplist");
+        var {name} = req.query;
+        name ? (name={$regex:name,$options:'i'}):null 
+        // const shopId = parseInt(req.params.shop_id);
+        const datas = await model.find({name});
+        res.status(200).send({ status: true, datas })
+    } catch {
+        res.status(500).send({status:false,message:"unable to find data"});
+
+    }
+}
+
 // add to cart
 
 const download = (req, res) => {
@@ -115,7 +130,7 @@ module.exports = {
     listOfItems,
     getShopList,
     getShopListId,
-
+    getShopListsearch
 }
 // shopId
 const generateShopId = async () => {
