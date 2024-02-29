@@ -49,7 +49,7 @@ const login = async (req, res) => {
         const existingUser = await UserModel.findOne({ email });
 
         if (!existingUser) {
-            return res.status(400).json({message:'Email is not registered. Please sign up first.'});
+            return res.status(400).json({ message: 'Email is not registered. Please sign up first.' });
         }
 
         // Save email and OTP to the database
@@ -64,10 +64,10 @@ const login = async (req, res) => {
             text: `Your OTP for login is: ${otp}`
         });
 
-        res.status(200).json({status:'true',data,message:'OTP sent successfully'});
+        res.status(200).json({ status: 'true', data, message: 'OTP sent successfully' });
     } catch (error) {
         console.error('Error sending OTP:', error);
-        res.status(500).json({status:'false',message:'Error sending OTP'});
+        res.status(500).json({ status: 'false', message: 'Error sending OTP' });
     }
 }
 
@@ -106,9 +106,20 @@ function generateOTP() {
     let otp = Math.floor(100000 + Math.random() * 900000);
     return otp.toString().substring(0, 6);
 }
-
+const getUserdata = async (req, res) => {
+    try {
+        const model = mongo.conn.model("singup", authSchema, "singup");
+        const userid = parseInt(req.params.user_id);
+        console.log("user_id",userid)
+        const data = await model.findOne({user_id: userid });
+        res.status(200).json({ status: true, message: "Data found", data: data })
+    } catch {
+        res.status(400).json({ status: false, message: 'No Data Found' })
+    }
+}
 module.exports = {
     singup,
     login,
-    verifiotp
+    verifiotp,
+    getUserdata
 };

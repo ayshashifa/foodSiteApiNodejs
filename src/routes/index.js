@@ -23,7 +23,7 @@ router.get("/food/contactUs",contactUsController.getContactList);
 router.post("/signup",authController.singup)
 router.post("/login",authController.login)
 router.post("/verifyOtp",authController.verifiotp)
-
+router.get("/userdata/:user_id",authController.getUserdata)
 router.get("/search",shopController.getShopListsearch)
 module.exports = router;
 
