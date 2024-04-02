@@ -76,7 +76,6 @@ const verifiotp = async (req, res) => {
     const { email, otp } = req.body;
     try {
         const User = mongo.conn.model("login", loginSchema, "login");
-
         // Find the user by email and OTP
         const user = await User.findOne({ email, otp });
         if (!user) {
@@ -84,7 +83,7 @@ const verifiotp = async (req, res) => {
         }
         // If OTP is valid, generate a JWT and send it as a response
         const payload = { email };
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
         res.status(200).json({status:true, message: 'OTP verified successfully', token });
 
         // Clear the OTP from the database
@@ -94,10 +93,10 @@ const verifiotp = async (req, res) => {
         res.status(500).send('Error verifying OTP');
     }
 };
+
 const getUserDetail = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-        // console.log("Token not found in headers");
         return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
@@ -106,42 +105,26 @@ const getUserDetail = async (req, res) => {
         // console.log("Token verified successfully");
         const UserModel = mongo.conn.model("singup", authSchema, "singup");
         const data = await UserModel.findOne({ email: decoded.email });
-        // console.log("User found:", user);
         if (!data) {
-            // console.log("User not found in the database");
             return req.status(400).json({ message: "User not found" });
         }
-
-        // console.log("Sending user details in response");
         return res.status(200).json({ status: true, data });
     } catch (error) {
-        // console.error('Error retrieving user details:', error);
         return res.status(500).json({ status: false, message: 'Internal server error' });
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-const getUserdata = async (req, res) => {
-    try {
-        const model = mongo.conn.model("singup", authSchema, "singup");
-        const userid = parseInt(req.params.user_id);
-        console.log("user_id",userid)
-        const data = await model.findOne({user_id: userid });
-        res.status(200).json({ status: true, message: "Data found", data: data })
-    } catch {
-        res.status(400).json({ status: false, message: 'No Data Found' })
-    }
-}
+// const getUserdata = async (req, res) => {
+//     try {
+//         const model = mongo.conn.model("singup", authSchema, "singup");
+//         const userid = parseInt(req.params.user_id);
+//         console.log("user_id",userid)
+//         const data = await model.findOne({user_id: userid });
+//         res.status(200).json({ status: true, message: "Data found", data: data })
+//     } catch {
+//         res.status(400).json({ status: false, message: 'No Data Found' })
+//     }
+// }
 
 
 // user id generate
@@ -160,5 +143,5 @@ module.exports = {
     login,
     verifiotp,
     getUserDetail,
-    getUserdata
+    // getUserdata
 };

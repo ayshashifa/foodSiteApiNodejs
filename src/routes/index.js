@@ -25,7 +25,7 @@ router.post("/login",authController.login)
 router.post("/verifyOtp",authController.verifiotp)
 router.get("/getUserDetail",authController.getUserDetail)
 
-router.get("/userdata/:user_id",authController.getUserdata)
+// router.get("/userdata/:user_id",authController.getUserdata)
 router.get("/search",shopController.getShopListsearch)
 module.exports = router;
 
